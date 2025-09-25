@@ -226,7 +226,7 @@
   pointer-events: auto;
 }
 /****************************************************************************************************/
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .your {
     font-size: 40px;
   }
@@ -237,7 +237,7 @@
     font-size: 15px;
   }
   .ps-80 {
-    padding-left: 80px;
+    padding-left: 85px;
     padding-right: 80px;
   }
   .text-s2 {
@@ -272,8 +272,11 @@
     padding-top: 4px;
     font-size:12px;
   }
+  .sm{
+    padding-left: 20px;
+  }
 }
-@media (min-width: 800px) and (max-width: 950px) {
+@media (min-width: 700px) and (max-width: 950px) {
   .ps-lg-250 {
     padding-left: 200px;
   }
