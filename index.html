@@ -2,726 +2,692 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eman Ashraf</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eman Ashraf</title>
 
-    <link rel="stylesheet" href="./Faster/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./Faster/css/all.min.css">
-    <link rel="stylesheet" href="./Faster/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="./Faster/css/aos.css">
-    <link rel="stylesheet" href="./Faster/css/dark.css" id="theme-link">
+  <link rel="stylesheet" href="./Faster/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./Faster/css/all.min.css">
+  <link rel="stylesheet" href="./Faster/css/bootstrap-icons.css">
+  <link rel="stylesheet" href="./Faster/css/aos.css">
+  <link rel="stylesheet" href="./Faster/css/dark.css" id="theme-link">
 
+  <style>
+    /* ── 3D Hero Canvas ── */
+    #hero-3d-canvas {
+      width: 100%;
+      height: 480px;
+      display: block;
+      cursor: grab;
+    }
+    #hero-3d-canvas:active { cursor: grabbing; }
+
+    /* Glow ring beneath the canvas */
+    .canvas-wrapper {
+      position: relative;
+    }
+    .canvas-wrapper::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 40px;
+      background: radial-gradient(ellipse, rgba(96,165,250,0.35) 0%, transparent 70%);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    /* Floating badge labels around the canvas */
+    .tech-badge {
+      position: absolute;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+      animation: badgeFloat 3s ease-in-out infinite;
+    }
+    .tech-badge.blue  { background: rgba(96,165,250,0.18); border: 1px solid rgba(96,165,250,0.5); color:#93c5fd; top:12%;  left:6%; animation-delay:0s; }
+    .tech-badge.purple{ background: rgba(192,132,252,0.18); border: 1px solid rgba(192,132,252,0.5); color:#d8b4fe; top:18%;  right:8%; animation-delay:.6s; }
+    .tech-badge.green { background: rgba(74,222,128,0.15);  border: 1px solid rgba(74,222,128,0.4);  color:#86efac; bottom:22%; left:4%;  animation-delay:1.2s; }
+    .tech-badge.pink  { background: rgba(251,113,133,0.15); border: 1px solid rgba(251,113,133,0.45); color:#fca5a5; bottom:28%; right:6%; animation-delay:.9s; }
+
+    @keyframes badgeFloat {
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-7px); }
+    }
+
+    /* old circle – hidden now */
+    .circle, .small-circle, .small-circle2 { display: none !important; }
+  </style>
 </head>
 
 <body>
-    <section class="section-width section1_color">
-        <nav class="navbar navbar-expand-lg bg-nav  w-100">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <h2 class="fw-bold text-white-d">EA</h2>
-                </a>
-
-                <button class="navbar-toggler border-0 color-none" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                    <i class="bi bi-list fs-1 text-white-d"></i>
-                </button>
-
-                <div class="offcanvas offcanvas-end bg-nav text-white-d" tabindex="-1" id="offcanvasNavbar"
-                    aria-labelledby="offcanvasNavbarLabel">
-
-                    <div class="offcanvas-header">
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
-                    </div>
-
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav ms-80 mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link color-gray active" href="#section1">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-gray" href="#section2">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-gray" href="#section3">Skills</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-gray" href="#section4">Projects</a>
-                            </li>
-
-
-                            <li class="nav-item">
-                                <a class="nav-link color-gray" href="#section5">Achievements</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link color-gray" href="#section6">Contact</a>
-                            </li>
-                            <li class="nav-item ms-250">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button id="light-btn" class="btn mode text-light bg-mode" style="height:40px; width:100px">
-                                        <i class="bi bi-sun-fill"></i> Light
-                                    </button>
-                                    <button id="dark-btn" class="btn mode text-light bg-mode" style="height:40px; width:100px">
-                                        <i class="bi bi-moon-fill"></i> Dark
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+  <section class="section-width section1_color">
+    <nav class="navbar navbar-expand-lg bg-nav w-100">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <h2 class="fw-bold text-white-d">EA</h2>
+        </a>
+        <button class="navbar-toggler border-0 color-none" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-1 text-white-d"></i>
+        </button>
+        <div class="offcanvas offcanvas-end bg-nav text-white-d" tabindex="-1" id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+              aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav ms-80 mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link color-gray active" href="#section1">Home</a></li>
+              <li class="nav-item"><a class="nav-link color-gray" href="#section2">About</a></li>
+              <li class="nav-item"><a class="nav-link color-gray" href="#section3">Skills</a></li>
+              <li class="nav-item"><a class="nav-link color-gray" href="#section4">Projects</a></li>
+              <li class="nav-item"><a class="nav-link color-gray" href="#section5">Achievements</a></li>
+              <li class="nav-item"><a class="nav-link color-gray" href="#section6">Contact</a></li>
+              <li class="nav-item ms-250">
+                <div class="btn-group" role="group">
+                  <button id="light-btn" class="btn mode text-light bg-mode" style="height:40px;width:100px">
+                    <i class="bi bi-sun-fill"></i> Light
+                  </button>
+                  <button id="dark-btn" class="btn mode text-light bg-mode" style="height:40px;width:100px">
+                    <i class="bi bi-moon-fill"></i> Dark
+                  </button>
                 </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!------------------------------------------------------------------------------------------------------->
+
+    <div class="container" id="section1">
+      <div class="row pt-150">
+        <!-- TEXT SIDE -->
+        <div class="col-lg-6 col-md-12 text-white-d order-2 order-lg-1" data-aos="fade-up">
+          <h1 class="fw-bold fs-70 your">Hi, I'm<br>
+            <span class="gradient">Eman Ashraf</span>
+          </h1>
+          <p style="color:#94a3b8" class="fs-5">
+            <span class="fw-bold fs-5" style="color:#cbd5e1;">a Full-Stack Developer and Senior CS Student.</span>
+            <br><br>
+            I have strong experience in programming Java, C++, PHP and Scala, along with proven expertise in
+            Full-Stack Web Development using Laravel, PHP, and MySQL. My work involves creating responsive and
+            interactive front-end interfaces as well as developing secure and scalable back-end systems.
+          </p>
+          <div>
+            <a href="https://drive.google.com/drive/folders/1w5_z7vGSgLjPX7a-6GT6dcjTNI1OeP09" target="_blank"
+              class="btn btn-primary p-3 mt-5 button-s1">
+              <h5 class="text-sm"><i class="bi bi-download"></i> Download CV</h5>
+            </a>
+            <a href="mailto:emanashraf9090ea@gmail.com" target="_blank" class="btn p-3 mt-5 ms-3 button-s1"
+              style="background-color:rgba(0,0,0,0.2);border:1px solid white;">
+              <h5 class="text-white-d text-sm"><i class="bi bi-envelope"></i> Get In Touch</h5>
+            </a>
+          </div>
+          <div class="ms-4 mt-5" style="display:flex;gap:40px;">
+            <a href="https://www.linkedin.com/in/eman-ashraf-305884312/" target="_blank"
+              style="font-size:30px;" class="link link-underline-opacity-0">
+              <i class="bi bi-linkedin text-white-d"></i>
+            </a>
+            <a href="https://github.com/E-emanAshraf" target="_blank" style="font-size:30px;"
+              class="link link-underline-opacity-0">
+              <i class="bi bi-github text-white-d"></i>
+            </a>
+            <a href="mailto:emanashraf9090ea@gmail.com" style="font-size:30px;"
+              class="link link-underline-opacity-0">
+              <i class="bi bi-envelope-fill text-white-d"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3D OBJECT SIDE -->
+        <div class="col-lg-6 col-md-12 order-1 order-lg-2 d-flex justify-content-center align-items-center"
+          data-aos="fade-up">
+          <div class="canvas-wrapper w-100 position-relative">
+            <canvas id="hero-3d-canvas"></canvas>
+            <!-- floating tech badges -->
+            <span class="tech-badge blue">Laravel</span>
+            <span class="tech-badge purple">C++</span>
+            <span class="tech-badge green">MySQL</span>
+            <span class="tech-badge pink">Python</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!---------------------------section2-------------------------------------------------->
+  <section class="section2_bg pt-110 section-width section2" id="section2">
+    <div class="d-flex text-center justify-content-center" style="flex-wrap:wrap;">
+      <h1 class="fs-1 fw-bold text-white-d w-100">About Me</h1>
+      <p class="fs-5 text-white-d w-100">Get to know me better and discover what drives my passion for technology.</p>
+    </div>
+    <div class="container">
+      <div class="row pt-5">
+        <div class="col-lg-6 col-md-12 text-white-d order-2 order-lg-1 text-s2" data-aos="fade-up">
+          <h1 class="fw-bold fs-3">My Journey</h1>
+          <p style="color:#94a3b8;font-size:18px;">
+            I'm a Computer Science student at Ain Shams University with a passion for problem-solving and
+            full-stack development. My journey in technology combines academic excellence with hands-on
+            project experience in various programming languages and frameworks.
+            <br><br>
+            I specialize in system architecture and full-stack web development, building efficient, scalable
+            applications and delivering end-to-end solutions. I enjoy tackling complex technical challenges
+            across different domains, particularly in creating interactive web platforms with Laravel, PHP, and MySQL.
+            <br><br>
+            Currently pursuing my Bachelor's degree while actively participating in competitive programming
+            and contributing to tech communities through the APPLAi Student Chapter.
+          </p>
+        </div>
+        <div class="col-lg-6 col-md-12 text-center order-1 order-lg-2 ps-80 ps-lg-5" data-aos="fade-up">
+          <div class="row">
+            <div class="col-6 card_about clean">
+              <div class="pb-3 pt-4"><i class="bi bi-code-slash" style="font-size:40px;color:#60a5fa;background-color:rgba(30,54,125,0.5);border-radius:10px;padding:3px 11px;"></i></div>
+              <h5 class="text-white-d fw-bold">Clean Code</h5>
+              <p style="color:#94a3b8">Writing maintainable and scalable solutions</p>
             </div>
-        </nav>
-
-        <!------------------------------------------------------------------------------------------------------->
-
-        <div class="container" id="section1">
-            <div class="row pt-150">
-                <div class="col-lg-6 col-md-12 text-white-d order-2 order-lg-1" data-aos="fade-up">
-                    <h1 class="fw-bold fs-70  your">Hi, I'm<br>
-                        <span class="gradient">Eman Ashraf</span>
-                    </h1>
-                    <p style="color:#94a3b8" class="fs-5"><span class="fw-bold fs-5" style="color:#cbd5e1;">a
-                            Full-Stack Developer and Senior CS Student.</span>
-                        <br><br>
-
-                        I have strong experience in programming Java, C++, PHP and Scala, along with proven
-                        expertise in Full-Stack Web Development using Laravel, PHP, and MySQL. My work involves creating
-                        responsive and interactive front-end interfaces as well as developing secure and scalable
-                        back-end systems.
-                    </p>
-
-                    <div>
-                        <a href="https://drive.google.com/drive/folders/1w5_z7vGSgLjPX7a-6GT6dcjTNI1OeP09"
-                            target="_blank" class="btn btn-primary p-3 mt-5 button-s1">
-                            <h5 class="text-sm">
-                                <i class="bi bi-download"></i> Download CV
-                            </h5>
-                        </a>
-                        <a href="mailto:emanashraf9090ea@gmail.com" target="_blank" class="btn p-3 mt-5 ms-3 button-s1"
-                            style="background-color:rgba(0,0,0,0.2);border:1px solid white;">
-                            <h5 class="text-white-d text-sm">
-                                <i class="bi bi-envelope"></i> Get In Touch
-                            </h5>
-                        </a>
-                    </div>
-
-                    <div class="ms-4 mt-5" style="display:flex; gap:40px;">
-
-
-                        <a href="https://www.linkedin.com/in/eman-ashraf-305884312/" target="_blank"
-                            style="font-size: 30px;" class="link link-underline-opacity-0">
-                            <i class="bi bi-linkedin text-white-d"></i>
-                        </a>
-
-
-                        <a href="https://github.com/E-emanAshraf" target="_blank" style=" font-size: 30px;"
-                            class="link link-underline-opacity-0">
-                            <i class="bi bi-github text-white-d"></i>
-                        </a>
-
-
-                        <a href="mailto:emanashraf9090ea@gmail.com" style="font-size: 30px;"
-                            class="link link-underline-opacity-0">
-                            <i class="bi bi-envelope-fill text-white-d"></i>
-                        </a>
-
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-12 text-center order-1 order-lg-2  pt-lg-110 d-flex justify-content-center" data-aos="fade-up">
-                    <div class="circle">
-                        <div class="small-circle"></div>
-                        <div class="small-circle2"></div>
-                    </div>
-                </div>
+            <div class="col-6 card_about innovation">
+              <div class="pb-3 pt-4"><i class="bi bi-lightbulb" style="font-size:40px;color:#c084fc;background-color:rgba(75,36,121,0.5);border-radius:10px;padding:3px 11px;"></i></div>
+              <h5 class="text-white-d fw-bold">Innovation</h5>
+              <p style="color:#94a3b8">Always exploring new technologies and approaches</p>
             </div>
-        </div>
-
-    </section>
-    <!---------------------------section2-------------------------------------------------->
-    <section class="section2_bg pt-110 section-width section2" id="section2">
-
-        <div class="d-flex text-center justify-content-center" style="flex-wrap: wrap;">
-            <h1 class="fs-1 fw-bold text-white-d w-100">About Me</h1>
-            <p class="fs-5  text-white-d w-100">Get to know me better and discover what drives my passion for technology.
-            </p>
-        </div>
-
-        <div class="container">
-            <div class="row pt-5">
-                <div class="col-lg-6 col-md-12 text-white-d order-2 order-lg-1 text-s2" data-aos="fade-up">
-                    <h1 class="fw-bold fs-3 ">
-                        My Journey
-                    </h1>
-                    <p style="color:#94a3b8; font-size:18px;">
-                        I’m a Computer Science student at Ain Shams University with a passion for problem-solving and
-                        full-stack development. My journey in technology combines academic excellence with hands-on
-                        project experience in various programming languages and frameworks.
-                        <br><br>
-                        I specialize in system architecture and full-stack web development, building efficient, scalable
-                        applications and delivering end-to-end solutions. I enjoy tackling complex technical challenges
-                        across different domains, particularly in creating interactive web platforms with Laravel, PHP,
-                        and MySQL.
-                        <br><br>
-                        Currently pursuing my Bachelor’s degree while actively participating in competitive programming
-                        and contributing to tech communities through the APPLAi Student Chapter.
-                    </p>
-                </div>
-                <div class="col-lg-6 col-md-12 text-center order-1 order-lg-2 ps-80 ps-lg-5" data-aos="fade-up">
-                    <div class="row">
-                        <div class="col-6 card_about clean">
-                            <div class="pb-3 pt-4"><i class="bi bi-code-slash"
-                                    style="font-size: 40px; color: #60a5fa; background-color:rgba(30,54,125,0.5); border-radius:10px; padding:3px 11px;"></i>
-                            </div>
-                            <h5 class="text-white-d fw-bold">Clean Code</h5>
-                            <p style="color:#94a3b8">
-                                Writing maintainable and scalable solutions
-                            </p>
-                        </div>
-
-                        <div class="col-6 card_about innovation">
-                            <div class="pb-3 pt-4"><i class="bi bi-lightbulb"
-                                    style="font-size: 40px; color: #c084fc; background-color:rgba(75,36,121,0.5); border-radius:10px; padding:3px 11px;"></i>
-                            </div>
-                            <h5 class="text-white-d fw-bold">Innovation</h5>
-                            <p style="color:#94a3b8">
-                                Always exploring new technologies and approaches
-                            </p>
-                        </div>
-
-                        <div class="col-6 card_about dedication">
-                            <div class="pb-3 pt-4"><i class="bi bi-bullseye"
-                                    style="font-size: 40px; color: #4ade80; background-color:rgba(25,76,54,0.8); border-radius:10px; padding:3px 11px;"></i>
-                            </div>
-                            <h5 class="text-white-d fw-bold">Dedication</h5>
-                            <p style="color:#94a3b8">
-                                Committed to delivering exceptional results
-                            </p>
-                        </div>
-
-                        <div class="col-6 card_about passion">
-                            <div class="pb-3 pt-4"><i class="bi bi-heart"
-                                    style="font-size: 40px; color: #f77070; background-color:rgba(101,33,40,0.5); border-radius:10px; padding:3px 11px;"></i>
-                            </div>
-                            <h5 class="text-white-d fw-bold">Passion</h5>
-                            <p style="color:#94a3b8">
-                                Love for technology and problem-solving
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-6 card_about dedication">
+              <div class="pb-3 pt-4"><i class="bi bi-bullseye" style="font-size:40px;color:#4ade80;background-color:rgba(25,76,54,0.8);border-radius:10px;padding:3px 11px;"></i></div>
+              <h5 class="text-white-d fw-bold">Dedication</h5>
+              <p style="color:#94a3b8">Committed to delivering exceptional results</p>
             </div>
-        </div>
-    </section>
-    <!---------------------------section3-------------------------------------------------->
-    <section class="section3-bg pt-110 section-width" id="section3">
-        <div class="d-flex text-center justify-content-center" style="flex-wrap: wrap;">
-            <h1 class="fs-1 fw-bold text-white-d w-100">Skills & Technologies</h1>
-            <p class="fs-5  text-white-d w-100">The tools and technologies I use to bring ideas to life.
-            </p>
-        </div>
-        <div class="container">
-            <div class="row sm">
-                <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
-                    <div class="title">
-                        Programming Languages
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>C++</span><span>90%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 90%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Java</span><span>85%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 85%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Python</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>PHP</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>C#</span><span>70%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 70%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>JavaScript</span><span>75%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
-                    <div class="title">
-                        Technologies & Frameworks
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Laravel</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Machine Learning</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>MySQL</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Bootstrap</span><span>75%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Qt GUI</span><span>70%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 70%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>TypeScript</span><span>65%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 65%;"></div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-                <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
-                    <div class="title">
-                        Tools & Technologies
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Git/GitHub</span><span>85%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 85%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>HTML/CSS</span><span>85%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 85%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>SQL</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Windows Forms</span><span>70%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 70%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Assembly</span><span>60%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 60%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Scala</span><span>55%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 55%;"></div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
-                    <div class="title">
-                        Specialized Skills
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Data Structures & Algorithms</span><span>85%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 85%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>System Programming</span><span>80%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Competitive Programming</span><span>75%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 75%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Software Architecture</span><span>70%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 70%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>NLP</span><span>60%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 60%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="skill-label"><span>Computer Vision</span><span>20%</span></div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 20%;"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-6 card_about passion">
+              <div class="pb-3 pt-4"><i class="bi bi-heart" style="font-size:40px;color:#f77070;background-color:rgba(101,33,40,0.5);border-radius:10px;padding:3px 11px;"></i></div>
+              <h5 class="text-white-d fw-bold">Passion</h5>
+              <p style="color:#94a3b8">Love for technology and problem-solving</p>
             </div>
+          </div>
         </div>
-    </section>
-    <!---------------------------section4-------------------------------------------------->
-    <section class="section2_bg pt-110 section-width" id="section4">
-        <div class="d-flex text-center justify-content-center" style="flex-wrap: wrap;">
-            <h1 class="fs-1 fw-bold text-white-d w-100">Featured Projects</h1>
-            <p class="fs-5  text-white-d w-100">A showcase of my recent work and the technologies I've used to build them.
-            </p>
+      </div>
+    </div>
+  </section>
+
+  <!---------------------------section3-------------------------------------------------->
+  <section class="section3-bg pt-110 section-width" id="section3">
+    <div class="d-flex text-center justify-content-center" style="flex-wrap:wrap;">
+      <h1 class="fs-1 fw-bold text-white-d w-100">Skills &amp; Technologies</h1>
+      <p class="fs-5 text-white-d w-100">The tools and technologies I use to bring ideas to life.</p>
+    </div>
+    <div class="container">
+      <div class="row sm">
+        <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
+          <div class="title">Programming Languages</div>
+          <div class="mb-3"><div class="skill-label"><span>C++</span><span>90%</span></div><div class="progress"><div class="progress-bar" style="width:90%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Java</span><span>85%</span></div><div class="progress"><div class="progress-bar" style="width:85%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Python</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:80%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>PHP</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:75%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>C#</span><span>70%</span></div><div class="progress"><div class="progress-bar" style="width:70%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>JavaScript</span><span>75%</span></div><div class="progress"><div class="progress-bar" style="width:75%;"></div></div></div>
         </div>
+        <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
+          <div class="title">Technologies &amp; Frameworks</div>
+          <div class="mb-3"><div class="skill-label"><span>Laravel</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:80%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Machine Learning</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:80%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>MySQL</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:80%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Bootstrap</span><span>75%</span></div><div class="progress"><div class="progress-bar" style="width:75%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Qt GUI</span><span>70%</span></div><div class="progress"><div class="progress-bar" style="width:70%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>TypeScript</span><span>65%</span></div><div class="progress"><div class="progress-bar" style="width:65%;"></div></div></div>
+        </div>
+        <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
+          <div class="title">Tools &amp; Technologies</div>
+          <div class="mb-3"><div class="skill-label"><span>Git/GitHub</span><span>85%</span></div><div class="progress"><div class="progress-bar" style="width:85%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>HTML/CSS</span><span>85%</span></div><div class="progress"><div class="progress-bar" style="width:85%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>SQL</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:80%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Windows Forms</span><span>70%</span></div><div class="progress"><div class="progress-bar" style="width:70%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Assembly</span><span>60%</span></div><div class="progress"><div class="progress-bar" style="width:60%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Scala</span><span>55%</span></div><div class="progress"><div class="progress-bar" style="width:55%;"></div></div></div>
+        </div>
+        <div class="col-lg-6 card-s3 text-white-d" data-aos="fade-up">
+          <div class="title">Specialized Skills</div>
+          <div class="mb-3"><div class="skill-label"><span>Data Structures &amp; Algorithms</span><span>85%</span></div><div class="progress"><div class="progress-bar" style="width:85%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>System Programming</span><span>80%</span></div><div class="progress"><div class="progress-bar" style="width:80%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Competitive Programming</span><span>75%</span></div><div class="progress"><div class="progress-bar" style="width:75%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Software Architecture</span><span>70%</span></div><div class="progress"><div class="progress-bar" style="width:70%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>NLP</span><span>60%</span></div><div class="progress"><div class="progress-bar" style="width:60%;"></div></div></div>
+          <div class="mb-3"><div class="skill-label"><span>Computer Vision</span><span>20%</span></div><div class="progress"><div class="progress-bar" style="width:20%;"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-
-        <div class="container mt-5">
-            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4 pe-40">
-                <div class="col" data-aos="fade-up">
-                    <div class="card bg-s4 text-white-d">
-                        <div class="position-relative">
-                            <img src="./Faster/img/DEMO.gif" class="card-img-top h-320" alt="Sample Image">
-                            <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center"
-                                style="top:35px;right:-12px;border-radius:50%; width:50px; height:50px;">
-                                <a href="https://github.com/3twla-Girls/Videogame-Sales-on-Steam-Prediction"
-                                    target="_blank" style=" font-size: 30px;" class="link link-underline-opacity-0">
-                                    <i class="bi bi-github text-white-d"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">VideoGame Sales Prediction</h5>
-                            <p class="card-text">- Built regression and classification models to predict game sales,
-                                achieving up to 90% accuracy through extensive hyperparameter tuning.<br><br>- Cleaned
-                                and engineered features from 91,000 game records including bundles, and genres.
-                            </p>
-                            <div class="d-flex">
-                                <p
-                                    style="background-color:#525761; width:80px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Python</p>
-                                <p style="background-color:#525761; width:150px; border-radius:10px;text-align:center; height:30px;margin-right:20px;"
-                                    class="fs-10">
-                                    Machine Learning</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    HTML</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    CSS</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col" data-aos="fade-up">
-                    <div class="card bg-s4 text-white-d">
-                        <div class="position-relative">
-                            <img src="./Faster/img/dashboard.png" class="card-img-top h-320" alt="Sample Image">
-                            <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center"
-                                style="top:35px;right:-12px;border-radius:50%; width:50px; height:50px;">
-                                <a href="https://github.com/E-emanAshraf/University/tree/main/First_Project"
-                                    target="_blank" style=" font-size: 30px;" class="link link-underline-opacity-0">
-                                    <i class="bi bi-github text-white-d"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">University Dashboard</h5>
-                            <p class="card-text">- Developed a complete CRUD system using Laravel and MySQL with proper
-                                validation, authentication, and role-based authorization. <br><br>- Gained hands-on
-                                experience in building secure and structured workflows that integrate front-end and
-                                back-end seamlessly.</p>
-                            <div class="d-flex">
-                                <p
-                                    style="background-color:#525761; width:80px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Laravel</p>
-                                <p
-                                    style="background-color:#525761; width:80px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    MySQL</p>
-                                <p
-                                    style="background-color:#525761; width:120px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    AdminLTE</p>
-                                <p
-                                    style="background-color:#525761; width:80px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Braze</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col" data-aos="fade-up">
-                    <div class="card bg-s4 text-white-d">
-                        <div class="position-relative">
-                            <img src="./Faster/img/faster.png" class="card-img-top h-320" alt="Sample Image">
-                            <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center"
-                                style="top:35px;right:-12px;border-radius:50%; width:50px; height:50px;">
-                                <a href="https://github.com/E-emanAshraf/Faster" target="_blank"
-                                    style=" font-size: 30px;" class="link link-underline-opacity-0">
-                                    <i class="bi bi-github text-white-d"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Faster</h5>
-                            <p class="card-text">- Built a fully responsive website using HTML, CSS, JavaScript, and
-                                Bootstrap in just one day.
-                                <br><br>- Enhanced front-end development skills by writing clean code and ensuring
-                                responsiveness across multiple devices.
-                            </p>
-                            <div class="d-flex">
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    HTML</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    CSS</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    JS</p>
-                                <p
-                                    style="background-color:#525761; width:120px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Bootstrap</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col" data-aos="fade-up">
-                    <div class="card bg-s4 text-white-d">
-                        <div class="position-relative">
-                            <img src="./Faster/img/login11.png" class="card-img-top h-320" alt="Sample Image">
-                            <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center"
-                                style="top:35px;right:-12px;border-radius:50%; width:50px; height:50px;">
-                                <a href="https://github.com/E-emanAshraf/News-Management-System" target="_blank"
-                                    style=" font-size: 30px;" class="link link-underline-opacity-0">
-                                    <i class="bi bi-github text-white-d"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">News Management System</h5>
-                            <p class="card-text">- Investigated a cross-platform News Management System using Qt and
-                                C++, featuring a dynamic UI for managing news
-                                articles, categories, and user roles. <br><br>- Built a robust admin panel with
-                                moderation tools, streamlining content management for more than 100 posts.</p>
-                            <div class="d-flex">
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    C++</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Qt</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    OOP</p>
-                                <p
-                                    style="background-color:#525761; width:120px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    File Storage</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <!---------------------------section4-------------------------------------------------->
+  <section class="section2_bg pt-110 section-width" id="section4">
+    <div class="d-flex text-center justify-content-center" style="flex-wrap:wrap;">
+      <h1 class="fs-1 fw-bold text-white-d w-100">Featured Projects</h1>
+      <p class="fs-5 text-white-d w-100">A showcase of my recent work and the technologies I've used to build them.</p>
+    </div>
+    <div class="container mt-5">
+      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4 pe-40">
+        <div class="col" data-aos="fade-up">
+          <div class="card bg-s4 text-white-d">
+            <div class="position-relative">
+              <img src="./Faster/img/DEMO.gif" class="card-img-top h-320" alt="Sample Image">
+              <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center" style="top:35px;right:-12px;border-radius:50%;width:50px;height:50px;">
+                <a href="https://github.com/3twla-Girls/Videogame-Sales-on-Steam-Prediction" target="_blank" style="font-size:30px;" class="link link-underline-opacity-0"><i class="bi bi-github text-white-d"></i></a>
+              </div>
             </div>
-        </div>
-    </section>
-    <!---------------------------section5-------------------------------------------------->
-    <section class="section3-bg pt-110 section-width" id="section5">
-        <div class="d-flex text-center justify-content-center" style="flex-wrap: wrap;">
-            <h1 class="fs-1 fw-bold text-white-d w-100">Achievements</h1>
-            <p class="fs-5 text-white-d w-100">
-                Highlights of my accomplishments, awards, and recognition in various projects and competitions.
-            </p>
-        </div>
-
-
-        <div class="container mt-5">
-            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4 pe-40">
-                <div class="col" data-aos="fade-up">
-                    <div class="card bg-s4 text-white-d bg-card-d">
-
-                        <div class="position-relative">
-                            <img src="./Faster/img/certificate.jpg" class="card-img-top h-320" alt="Sample Image">
-                            <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center"
-                                style="top:35px;right:-12px;border-radius:50%; width:50px; height:50px;">
-                                <a href="https://github.com/3twla-Girls/Videogame-Sales-on-Steam-Prediction"
-                                    target="_blank" style=" font-size: 30px;" class="link link-underline-opacity-0">
-                                    <i class="bi bi-github text-white-d"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">VideoGame Sales Prediction</h5>
-                            <div class="d-flex">
-                                <p
-                                    style="background-color:#525761; width:80px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Python</p>
-                                <p style="background-color:#525761; width:150px; border-radius:10px;text-align:center; height:30px;margin-right:20px;"
-                                    class="fs-10">
-                                    Machine Learning</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    HTML</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    CSS</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col" data-aos="fade-up">
-                    <div class="card bg-s4 text-white-d bg-card-d">
-
-
-                        <div class="position-relative">
-                            <img src="./Faster/img/front.jpg" class="card-img-top h-320" alt="Sample Image">
-                            <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center"
-                                style="top:35px;right:-12px;border-radius:50%; width:50px; height:50px;">
-                                <a href="https://github.com/Tasneem-Alaa/Planto" target="_blank"
-                                    style=" font-size: 30px;" class="link link-underline-opacity-0">
-                                    <i class="bi bi-github text-white-d"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Planto</h5>
-                            <div class="d-flex">
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    HTML</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    CSS</p>
-                                <p
-                                    style="background-color:#525761; width:60px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    JS</p>
-                                <p
-                                    style="background-color:#525761; width:80px; border-radius:10px;text-align:center; height:30px;margin-right:20px">
-                                    Bootstrap</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-body">
+              <h5 class="card-title fw-bold">VideoGame Sales Prediction</h5>
+              <p class="card-text">- Built regression and classification models to predict game sales, achieving up to 90% accuracy through extensive hyperparameter tuning.<br><br>- Cleaned and engineered features from 91,000 game records including bundles, and genres.</p>
+              <div class="d-flex">
+                <p style="background-color:#525761;width:80px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Python</p>
+                <p style="background-color:#525761;width:150px;border-radius:10px;text-align:center;height:30px;margin-right:20px;" class="fs-10">Machine Learning</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">HTML</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">CSS</p>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
-    <!---------------------------footer---------------------------------------------------->
-    <footer class="section2_bg pt-5 section-width" id="section6">
-        <div class="d-flex text-center justify-content-center flex-wrap mb-4">
-            <h1 class="fs-1 fw-bold text-white-d w-100">Get In Touch</h1>
-            <p class="fs-5 text-white-d w-100">
-                Have a project in mind or want to collaborate? I'd love to hear from you!
-            </p>
-        </div>
-
-        <div class="container pb-5">
-            <div class="row justify-content-center g-4">
-                <!-- Email -->
-                <div class="col-auto">
-                    <a href="mailto:emanashraf9090ea@gmail.com" target="_blank"
-                        class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle"
-                        style="width:60px; height:60px; background-color: rgba(30,54,125,0.5); border:0;">
-                        <i class="bi bi-envelope" style="color: #60a5fa; font-size: 30px;"></i>
-                    </a>
-                </div>
-
-                <!-- WhatsApp -->
-                <div class="col-auto">
-                    <a href="https://wa.me/201116299235" target="_blank"
-                        class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle"
-                        style="width:60px; height:60px; background-color: rgba(25,76,54,0.8); border:0;">
-                        <i class="bi bi-telephone" style="color: #4ade80; font-size: 30px;"></i>
-                    </a>
-                </div>
-
-                <!-- Location -->
-                <div class="col-auto">
-                    <a href="https://www.google.com/maps/place/%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%D8%8C+%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9+%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%E2%80%AC%E2%80%AD/@30.0594699,31.3285046,12z/data=!3m1!4b1!4m6!3m5!1s0x14583fa60b21beeb:0x79dfb296e8423bba!8m2!3d30.0444196!4d31.2357116!16zL20vMDF3MnY?entry=ttu&g_ep=EgoyMDI1MDkyMi4wIKXMDSoASAFQAw%3D%3D"
-                        target="_blank"
-                        class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle"
-                        style="width:60px; height:60px; background-color: rgba(75,36,121,0.5); border:0;">
-                        <i class="bi bi-geo-alt" style="color: #c084fc; font-size: 30px;"></i>
-                    </a>
-                </div>
+        <div class="col" data-aos="fade-up">
+          <div class="card bg-s4 text-white-d">
+            <div class="position-relative">
+              <img src="./Faster/img/dashboard.png" class="card-img-top h-320" alt="Sample Image">
+              <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center" style="top:35px;right:-12px;border-radius:50%;width:50px;height:50px;">
+                <a href="https://github.com/E-emanAshraf/University/tree/main/First_Project" target="_blank" style="font-size:30px;" class="link link-underline-opacity-0"><i class="bi bi-github text-white-d"></i></a>
+              </div>
             </div>
+            <div class="card-body">
+              <h5 class="card-title fw-bold">University Dashboard</h5>
+              <p class="card-text">- Developed a complete CRUD system using Laravel and MySQL with proper validation, authentication, and role-based authorization.<br><br>- Gained hands-on experience in building secure and structured workflows that integrate front-end and back-end seamlessly.</p>
+              <div class="d-flex">
+                <p style="background-color:#525761;width:80px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Laravel</p>
+                <p style="background-color:#525761;width:80px;border-radius:10px;text-align:center;height:30px;margin-right:20px">MySQL</p>
+                <p style="background-color:#525761;width:120px;border-radius:10px;text-align:center;height:30px;margin-right:20px">AdminLTE</p>
+                <p style="background-color:#525761;width:80px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Braze</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </footer>
-    <!---------------------------finalsec-------------------------------------------------->
-    <section class="section3-bg pb-5 pt-5" id="final">
-
-        <div class="text-white-d text-center">
-            <button id="scrollBtn" class="scroll-to-top mb-5" aria-label="Scroll to top">
-                <i class="fas fa-arrow-up"></i>
-            </button> <br>
-            <p>Made withby <i class="bi bi-heart-fill text-danger"></i> Eman Ashraf
-                <br>
-                © 2024 All rights reserved.
-            </p>
+        <div class="col" data-aos="fade-up">
+          <div class="card bg-s4 text-white-d">
+            <div class="position-relative">
+              <img src="./Faster/img/faster.png" class="card-img-top h-320" alt="Sample Image">
+              <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center" style="top:35px;right:-12px;border-radius:50%;width:50px;height:50px;">
+                <a href="https://github.com/E-emanAshraf/Faster" target="_blank" style="font-size:30px;" class="link link-underline-opacity-0"><i class="bi bi-github text-white-d"></i></a>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Faster</h5>
+              <p class="card-text">- Built a fully responsive website using HTML, CSS, JavaScript, and Bootstrap in just one day.<br><br>- Enhanced front-end development skills by writing clean code and ensuring responsiveness across multiple devices.</p>
+              <div class="d-flex">
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">HTML</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">CSS</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">JS</p>
+                <p style="background-color:#525761;width:120px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Bootstrap</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+        <div class="col" data-aos="fade-up">
+          <div class="card bg-s4 text-white-d">
+            <div class="position-relative">
+              <img src="./Faster/img/login11.png" class="card-img-top h-320" alt="Sample Image">
+              <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center" style="top:35px;right:-12px;border-radius:50%;width:50px;height:50px;">
+                <a href="https://github.com/E-emanAshraf/News-Management-System" target="_blank" style="font-size:30px;" class="link link-underline-opacity-0"><i class="bi bi-github text-white-d"></i></a>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">News Management System</h5>
+              <p class="card-text">- Investigated a cross-platform News Management System using Qt and C++, featuring a dynamic UI for managing news articles, categories, and user roles.<br><br>- Built a robust admin panel with moderation tools, streamlining content management for more than 100 posts.</p>
+              <div class="d-flex">
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">C++</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Qt</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">OOP</p>
+                <p style="background-color:#525761;width:120px;border-radius:10px;text-align:center;height:30px;margin-right:20px">File Storage</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!---------------------------section5-------------------------------------------------->
+  <section class="section3-bg pt-110 section-width" id="section5">
+    <div class="d-flex text-center justify-content-center" style="flex-wrap:wrap;">
+      <h1 class="fs-1 fw-bold text-white-d w-100">Achievements</h1>
+      <p class="fs-5 text-white-d w-100">Highlights of my accomplishments, awards, and recognition in various projects and competitions.</p>
+    </div>
+    <div class="container mt-5">
+      <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4 pe-40">
+        <div class="col" data-aos="fade-up">
+          <div class="card bg-s4 text-white-d bg-card-d">
+            <div class="position-relative">
+              <img src="./Faster/img/certificate.jpg" class="card-img-top h-320" alt="Sample Image">
+              <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center" style="top:35px;right:-12px;border-radius:50%;width:50px;height:50px;">
+                <a href="https://github.com/3twla-Girls/Videogame-Sales-on-Steam-Prediction" target="_blank" style="font-size:30px;" class="link link-underline-opacity-0"><i class="bi bi-github text-white-d"></i></a>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title fw-bold">VideoGame Sales Prediction</h5>
+              <div class="d-flex">
+                <p style="background-color:#525761;width:80px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Python</p>
+                <p style="background-color:#525761;width:150px;border-radius:10px;text-align:center;height:30px;margin-right:20px;" class="fs-10">Machine Learning</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">HTML</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">CSS</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col" data-aos="fade-up">
+          <div class="card bg-s4 text-white-d bg-card-d">
+            <div class="position-relative">
+              <img src="./Faster/img/front.jpg" class="card-img-top h-320" alt="Sample Image">
+              <div class="position-absolute translate-middle btn btn-secondary d-flex justify-content-center align-items-center" style="top:35px;right:-12px;border-radius:50%;width:50px;height:50px;">
+                <a href="https://github.com/Tasneem-Alaa/Planto" target="_blank" style="font-size:30px;" class="link link-underline-opacity-0"><i class="bi bi-github text-white-d"></i></a>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title fw-bold">Planto</h5>
+              <div class="d-flex">
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">HTML</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">CSS</p>
+                <p style="background-color:#525761;width:60px;border-radius:10px;text-align:center;height:30px;margin-right:20px">JS</p>
+                <p style="background-color:#525761;width:80px;border-radius:10px;text-align:center;height:30px;margin-right:20px">Bootstrap</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="./Faster/js/bootstrap.bundle.min.js"></script>
-    <script src="./Faster/js/aos.js"></script>
-    <script src="./Faster/js/index.js"></script>
-    <script>
-        AOS.init({
-            offset: 100,
-            duration: 2500,
-            once: false
+  <!---------------------------footer---------------------------------------------------->
+  <footer class="section2_bg pt-5 section-width" id="section6">
+    <div class="d-flex text-center justify-content-center flex-wrap mb-4">
+      <h1 class="fs-1 fw-bold text-white-d w-100">Get In Touch</h1>
+      <p class="fs-5 text-white-d w-100">Have a project in mind or want to collaborate? I'd love to hear from you!</p>
+    </div>
+    <div class="container pb-5">
+      <div class="row justify-content-center g-4">
+        <div class="col-auto">
+          <a href="mailto:emanashraf9090ea@gmail.com" target="_blank" class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle" style="width:60px;height:60px;background-color:rgba(30,54,125,0.5);border:0;">
+            <i class="bi bi-envelope" style="color:#60a5fa;font-size:30px;"></i>
+          </a>
+        </div>
+        <div class="col-auto">
+          <a href="https://wa.me/201116299235" target="_blank" class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle" style="width:60px;height:60px;background-color:rgba(25,76,54,0.8);border:0;">
+            <i class="bi bi-telephone" style="color:#4ade80;font-size:30px;"></i>
+          </a>
+        </div>
+        <div class="col-auto">
+          <a href="https://www.google.com/maps/place/%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9" target="_blank" class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle" style="width:60px;height:60px;background-color:rgba(75,36,121,0.5);border:0;">
+            <i class="bi bi-geo-alt" style="color:#c084fc;font-size:30px;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!---------------------------finalsec-------------------------------------------------->
+  <section class="section3-bg pb-5 pt-5" id="final">
+    <div class="text-white-d text-center">
+      <button id="scrollBtn" class="scroll-to-top mb-5" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+      </button><br>
+      <p>Made with <i class="bi bi-heart-fill text-danger"></i> by Eman Ashraf<br>© 2024 All rights reserved.</p>
+    </div>
+  </section>
+
+  <script src="./Faster/js/bootstrap.bundle.min.js"></script>
+  <script src="./Faster/js/aos.js"></script>
+  <script src="./Faster/js/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    /* ═══════════════════════════════════════════════
+       3D HERO OBJECT — Three.js r128
+    ═══════════════════════════════════════════════ */
+    (function () {
+      const canvas = document.getElementById('hero-3d-canvas');
+      if (!canvas) return;
+
+      /* ── Scene setup ── */
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.set(0, 0, 5.5);
+
+      /* ── Resize handling ── */
+      function resize() {
+        const w = canvas.parentElement.clientWidth;
+        const h = Math.min(480, window.innerHeight * 0.65);
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      /* ── Colour palette matching site theme ── */
+      const C = {
+        blue:   0x60a5fa,
+        purple: 0xc084fc,
+        green:  0x4ade80,
+        pink:   0xf87171,
+        white:  0xffffff,
+      };
+
+      /* ─────────────────────────────────────────
+         CORE OBJECT: Icosahedron (gem-like)
+      ───────────────────────────────────────── */
+      const icoGeo = new THREE.IcosahedronGeometry(1.15, 1);
+      const icoMat = new THREE.MeshPhongMaterial({
+        color: 0x0f172a,
+        emissive: 0x1e3a5f,
+        specular: C.blue,
+        shininess: 120,
+        wireframe: false,
+        transparent: true,
+        opacity: 0.92,
+        flatShading: true,
+      });
+      const icosahedron = new THREE.Mesh(icoGeo, icoMat);
+      icosahedron.castShadow = true;
+      scene.add(icosahedron);
+
+      /* Wireframe overlay */
+      const wireGeo = new THREE.IcosahedronGeometry(1.17, 1);
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: C.blue,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.25,
+      });
+      const wireframe = new THREE.Mesh(wireGeo, wireMat);
+      scene.add(wireframe);
+
+      /* ─────────────────────────────────────────
+         ORBITING RINGS
+      ───────────────────────────────────────── */
+      function makeRing(innerR, outerR, color, rotX, rotY) {
+        const geo = new THREE.TorusGeometry((innerR + outerR) / 2, (outerR - innerR) / 2, 4, 64);
+        const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.55 });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.rotation.x = rotX;
+        mesh.rotation.y = rotY;
+        return mesh;
+      }
+
+      const ring1 = makeRing(1.55, 1.65, C.blue,   Math.PI / 2, 0);
+      const ring2 = makeRing(1.75, 1.82, C.purple, 0.4,          0.9);
+      const ring3 = makeRing(1.95, 2.00, C.green,  1.1,          -0.5);
+      scene.add(ring1, ring2, ring3);
+
+      /* ─────────────────────────────────────────
+         ORBITING SMALL SPHERES (satellites)
+      ───────────────────────────────────────── */
+      const satellites = [];
+      const satColors = [C.blue, C.purple, C.green, C.pink, C.blue, C.purple];
+      satColors.forEach((col, i) => {
+        const geo = new THREE.SphereGeometry(0.07, 12, 12);
+        const mat = new THREE.MeshPhongMaterial({ color: col, emissive: col, emissiveIntensity: 0.6 });
+        const mesh = new THREE.Mesh(geo, mat);
+        const angle0 = (i / satColors.length) * Math.PI * 2;
+        const radius = 1.7 + (i % 3) * 0.18;
+        const tiltX  = (i % 2 === 0) ? 0 : Math.PI / 5;
+        satellites.push({ mesh, angle0, radius, speed: 0.4 + i * 0.07, tiltX });
+        scene.add(mesh);
+      });
+
+      /* ─────────────────────────────────────────
+         FLOATING PARTICLES
+      ───────────────────────────────────────── */
+      const particleCount = 120;
+      const partGeo = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const partColors = new Float32Array(particleCount * 3);
+      const palette = [
+        new THREE.Color(C.blue),
+        new THREE.Color(C.purple),
+        new THREE.Color(C.green),
+        new THREE.Color(C.pink),
+      ];
+      for (let i = 0; i < particleCount; i++) {
+        const r = 2.3 + Math.random() * 1.2;
+        const theta = Math.random() * Math.PI * 2;
+        const phi   = Math.acos(2 * Math.random() - 1);
+        positions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+        positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i*3+2] = r * Math.cos(phi);
+        const c = palette[i % palette.length];
+        partColors[i*3]   = c.r;
+        partColors[i*3+1] = c.g;
+        partColors[i*3+2] = c.b;
+      }
+      partGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      partGeo.setAttribute('color',    new THREE.BufferAttribute(partColors, 3));
+      const partMat = new THREE.PointsMaterial({ size: 0.045, vertexColors: true, transparent: true, opacity: 0.8 });
+      const particles = new THREE.Points(partGeo, partMat);
+      scene.add(particles);
+
+      /* ─────────────────────────────────────────
+         LIGHTING
+      ───────────────────────────────────────── */
+      scene.add(new THREE.AmbientLight(0x0f172a, 2));
+
+      const light1 = new THREE.PointLight(C.blue, 3, 8);
+      light1.position.set(3, 2, 3);
+      scene.add(light1);
+
+      const light2 = new THREE.PointLight(C.purple, 2.5, 8);
+      light2.position.set(-3, -1, 2);
+      scene.add(light2);
+
+      const light3 = new THREE.PointLight(C.green, 1.5, 6);
+      light3.position.set(0, -3, 1);
+      scene.add(light3);
+
+      /* ─────────────────────────────────────────
+         MOUSE INTERACTION (drag to rotate)
+      ───────────────────────────────────────── */
+      let isDragging = false;
+      let prevMouse  = { x: 0, y: 0 };
+      let velocity   = { x: 0, y: 0 };
+      let targetRot  = { x: 0, y: 0 };
+
+      canvas.addEventListener('mousedown', e => { isDragging = true; prevMouse = { x: e.clientX, y: e.clientY }; });
+      window.addEventListener('mouseup',   () => { isDragging = false; });
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        velocity.x = (e.clientY - prevMouse.y) * 0.004;
+        velocity.y = (e.clientX - prevMouse.x) * 0.004;
+        targetRot.x += velocity.x;
+        targetRot.y += velocity.y;
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+
+      /* touch */
+      canvas.addEventListener('touchstart', e => { isDragging = true; prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
+      canvas.addEventListener('touchend',   () => { isDragging = false; });
+      canvas.addEventListener('touchmove',  e => {
+        if (!isDragging) return;
+        velocity.x = (e.touches[0].clientY - prevMouse.y) * 0.004;
+        velocity.y = (e.touches[0].clientX - prevMouse.x) * 0.004;
+        targetRot.x += velocity.x;
+        targetRot.y += velocity.y;
+        prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }, { passive: true });
+
+      /* ─────────────────────────────────────────
+         ANIMATION LOOP
+      ───────────────────────────────────────── */
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        /* Inertia when not dragging */
+        if (!isDragging) {
+          velocity.x *= 0.92;
+          velocity.y *= 0.92;
+          targetRot.x += velocity.x;
+          targetRot.y += velocity.y;
+          /* gentle auto-spin */
+          targetRot.y += 0.003;
+          targetRot.x += Math.sin(t * 0.15) * 0.001;
+        }
+
+        /* Apply rotation to core */
+        icosahedron.rotation.x += (targetRot.x - icosahedron.rotation.x) * 0.08;
+        icosahedron.rotation.y += (targetRot.y - icosahedron.rotation.y) * 0.08;
+        wireframe.rotation.x = icosahedron.rotation.x + 0.3;
+        wireframe.rotation.y = icosahedron.rotation.y + 0.3;
+
+        /* Bob up/down */
+        const bob = Math.sin(t * 0.9) * 0.08;
+        icosahedron.position.y = bob;
+        wireframe.position.y   = bob;
+
+        /* Rings */
+        ring1.rotation.z = t * 0.4;
+        ring2.rotation.z = -t * 0.25;
+        ring3.rotation.x = t * 0.18;
+
+        /* Satellites orbit */
+        satellites.forEach(({ mesh, angle0, radius, speed, tiltX }) => {
+          const a = angle0 + t * speed;
+          mesh.position.x = Math.cos(a) * radius;
+          mesh.position.y = Math.sin(a) * radius * Math.cos(tiltX) + bob * 0.5;
+          mesh.position.z = Math.sin(a) * radius * Math.sin(tiltX);
         });
-    </script>
 
+        /* Particles drift */
+        particles.rotation.y = t * 0.04;
+        particles.rotation.x = t * 0.02;
+
+        /* Pulsing lights */
+        light1.intensity = 2.5 + Math.sin(t * 1.2) * 0.8;
+        light2.intensity = 2.0 + Math.sin(t * 0.9 + 1) * 0.7;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+  </script>
+
+  <script>
+    AOS.init({ offset: 100, duration: 2500, once: false });
+  </script>
 </body>
-
 </html>
